@@ -62,7 +62,7 @@ Share images, automate workflows, and more with a free Docker ID:
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
-*Установка Docker-compose, с сайта https://github.com/docker/compose/releases скачиваю файл 2.10.2 и перекладываю как /usr/local/bin/docker-compose*
+*Установка Docker-compose, с [сайта](https://github.com/docker/compose/releases) скачиваю файл 2.10.2 и перекладываю как /usr/local/bin/docker-compose*
 ```
 igels@LaptopAll:~$ sudo chmod +x /usr/local/bin/docker-compose #Делаю файл исполняемым
 igels@LaptopAll:~$ docker-compose --version
@@ -75,13 +75,17 @@ Docker Compose version v2.10.2      # проверяю установку
 
 **О сборке ядра в контейнере**
 
-*Согласно статье это возможно, но сборка ядра контейнера и сборка ядра линукса это немного разные понятия, так как должны выполнятся некоторые условия:*
+*Согласно [статье](https://russianblogs.com/article/1138863585/) это возможно, но сборка ядра контейнера и сборка ядра линукса это немного разные понятия, так как должны выполнятся некоторые условия:*
 
 *1. Не ограничено Докером*
 
 *2. Элемент конфигурации можно увидеть в контейнере*
 
 *3. Элемент конфигурации можно разместить в пространстве имён*
+
+ *Подъитоживая можно сказать, что сборка ядра контейнера возможна, но с намного меньшими параметрами и ограничениями чем для хостовой ОС*
+ 
+ 
 
 
 
