@@ -71,7 +71,7 @@ Docker Compose version v2.10.2      # проверяю установку
 **1. Кастомный образ nginx на базе alpine.**
 *Создаю файл Dockerfile*
 ```
-FROM alpine:latest                #Собираю на базе последней версии alpine
+FROM alpine:3.14                #Собираю на базу alpine 3.14 потому как она ещё поддерживает php7
 
 MAINTAINER Igelslecha             #Подпись автора
 
@@ -114,7 +114,7 @@ WORKDIR /app                                  #Делаю каталог /app в
 
 COPY --chown=nobody:nobody app /app           #Копирую содержимое каталога app в app, где лежат файлы php
 
-VOLUME "/logs"                                #Внешний диск 
+VOLUME "/logs"                                #Внешняя папка для выгрузки логов
 
 EXPOSE 8080                                   #Nginx работает на порту 8080
 
@@ -124,7 +124,34 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]   
 
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping  #Благодаря инструкции HEALTHCHECK можно запускать периодическую проверку жизнеспособности контейнера. В данном примере будем обращаться каждые 30 секунд (по умолчанию) к эндпоинту http://127.0.0.1:8080/fpm-ping. Если последние 3 проверки (по умолчанию) будут провалены, контейнер будет считаться нерабочим.
 ```
-
+*Запускаю построение образа*
+```
+igels@LaptopAll:~/hw14/nginx-alpine$ docker build --pull --tag=igelslecha\nginxphp .
+***
+Successfully tagged igelslechanginxphp2:latest
+```
+*Создаю каталог для логов*
+```
+igels@LaptopAll:~/hw14/nginx-alpine$ mkdir -p log
+igels@LaptopAll:~/hw14/nginx-alpine$ chmod 777 log
+```
+*Запускаю контейнер*
+```
+igels@LaptopAll:~/hw14/nginx-alpine$ docker run -it --name=nginxphp4     -p 80:8080     -v $(pwd)/log:/logs     -v /etc/localtime:/etc/localtime:ro     -v /etc/timezone:/etc/timezone:ro     igelslechanginxphp4
+2022-09-04 10:50:28,518 INFO supervisord started with pid 7
+2022-09-04 10:50:29,522 INFO spawned: 'crond' with pid 10
+2022-09-04 10:50:29,523 INFO spawned: 'nginx' with pid 11
+2022-09-04 10:50:29,524 INFO spawned: 'php-fpm' with pid 12
+[04-Sep-2022 10:50:29] NOTICE: fpm is running, pid 12
+[04-Sep-2022 10:50:29] NOTICE: ready to handle connections
+2022-09-04 10:50:30,558 INFO success: crond entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-09-04 10:50:30,558 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-09-04 10:50:30,558 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+[04/Sep/2022:10:54:51 +0300] NGINX: 172.17.0.1 "GET / HTTP/1.1" 200 21415 0.017 0.020 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36" "-"
+2022/09/04 10:54:51 [error] 13#13: *17 access forbidden by rule, client: 172.17.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", host: "127.0.0.1", referrer: "http://127.0.0.1/"
+[04/Sep/2022:10:54:51 +0300] NGINX: 172.17.0.1 "GET /favicon.ico HTTP/1.1" 403 186 0.000 - "http://127.0.0.1/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36" "-"
+```
+**2. ![alt-текст](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Скрин запроса")**
 
 **3. Разница между контейнером и образом**
 *Образ Докера это неизменяемый файл, содержащий исходный код, библиотеки, зависимости, инструменты и другие файлы, необходимые для запуска приложения.*
@@ -143,6 +170,28 @@ HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-pin
 
  *Подытоживая можно сказать, что сборка ядра контейнера возможна, но с намного меньшими параметрами и ограничениями чем для хостовой ОС*
  
+ **5. Выкладывание созданного образа в Docker hub**
+ *Логинюсь к докеру, заранее зарегистрированным аккаунтом и выкладываю*
+ ```
+ igels@LaptopAll:~/hw14/nginx-alpine$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: igelslecha
+Password: 
+WARNING! Your password will be stored unencrypted in /home/igels/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+igels@LaptopAll:~/hw14/nginx-alpine$ docker push igelslecha/nginx:4
+The push refers to repository [docker.io/igelslecha/nginx]
+1399e1bf4377: Pushed 
+7db9ab36c44a: Pushed 
+9e49fb641867: Pushed 
+06a03dc8649e: Pushed 
+63493a9ab2d4: Mounted from library/alpine 
+4: digest: sha256:0f0cb030a1f0c44102970d87b6168a0af6acfee05530c1039ef092380ee2ff15 size: 1363
+```
+*[Ссылка на образ]([https://www.google.com](https://hub.docker.com/repository/docker/igelslecha/nginx))*
  
 
 
