@@ -69,6 +69,7 @@ igels@LaptopAll:~$ docker-compose --version
 Docker Compose version v2.10.2      # проверяю установку
 ```
 **1. Кастомный образ nginx на базе alpine.**
+
 *Создаю файл Dockerfile*
 ```
 FROM alpine:3.14                #Собираю на базу alpine 3.14 потому как она ещё поддерживает php7
@@ -154,6 +155,7 @@ igels@LaptopAll:~/hw14/nginx-alpine$ docker run -it --name=nginxphp4     -p 80:8
 **2. ![alt-текст](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Скрин запроса")**
 
 **3. Разница между контейнером и образом**
+
 *Образ Докера это неизменяемый файл, содержащий исходный код, библиотеки, зависимости, инструменты и другие файлы, необходимые для запуска приложения.*
 
 *По сути образ это шаблон, на базе которого, добавлением ещё одного изменяемого уровня создаются контейнеры.*
@@ -191,7 +193,7 @@ The push refers to repository [docker.io/igelslecha/nginx]
 63493a9ab2d4: Mounted from library/alpine 
 4: digest: sha256:0f0cb030a1f0c44102970d87b6168a0af6acfee05530c1039ef092380ee2ff15 size: 1363
 ```
-*[Ссылка на образ]([https://www.google.com](https://hub.docker.com/repository/docker/igelslecha/nginx))*
+*[Ссылка на образ](https://hub.docker.com/repository/docker/igelslecha/nginx)*
  
 
 
