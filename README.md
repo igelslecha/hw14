@@ -152,7 +152,7 @@ igels@LaptopAll:~/hw14/nginx-alpine$ docker run -it --name=nginxphp4     -p 80:8
 2022/09/04 10:54:51 [error] 13#13: *17 access forbidden by rule, client: 172.17.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", host: "127.0.0.1", referrer: "http://127.0.0.1/"
 [04/Sep/2022:10:54:51 +0300] NGINX: 172.17.0.1 "GET /favicon.ico HTTP/1.1" 403 186 0.000 - "http://127.0.0.1/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36" "-"
 ```
-**2. ![alt-текст](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Скрин запроса")**
+**2. ![Скрин с рабочей машины](https://github.com/igelslecha/hw14/blob/main/Docker1.png "Скрин запроса")**
 
 **3. Разница между контейнером и образом**
 
